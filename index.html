@@ -48,9 +48,27 @@ hr.divider{display:none}
 
 /* hero */
 .hero{padding:70px 0 30px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.08;letter-spacing:-.01em;max-width:800px}
 .hero h1 .mark{background:linear-gradient(to bottom, transparent 58%, var(--yellow) 58%);padding:0 2px}
 .hero .lead{font-size:18px;color:#463F33;margin:22px 0 0;max-width:600px}
+.hero-photo{width:100%;aspect-ratio:1/1;border-radius:30px;object-fit:cover;box-shadow:0 18px 50px rgba(33,28,21,.15);transform:rotate(1.2deg)}
+.photo-caption{font-size:11px;color:var(--muted);margin:12px 0 0 8px}
+.stat-strip{margin-top:58px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stat-card{background:var(--dark);color:#fff;border-radius:20px;padding:24px}
+.stat-card .stat{font-family:var(--serif);font-size:38px;line-height:1;color:var(--yellow);font-weight:800}
+.stat-card p{font-size:13px;color:#D7D2C6;margin-top:10px}
+.science{background:#F3E8D0}
+.science-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw;align-items:start}
+.science h2{font-size:clamp(28px,3.6vw,44px)}
+.science-intro{font-size:16px;color:#514A3D;margin-top:16px;max-width:430px}
+.science-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.science-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.science-card .science-num{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rust)}
+.science-card h3{font-size:19px;margin:8px 0}
+.science-card p{font-size:14px;color:#5C5548}
+.science-note{margin-top:18px;font-size:12px;color:#766D5E}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr}.hero-photo{aspect-ratio:16/10;transform:none}.stat-strip{grid-template-columns:1fr}.science-grid{grid-template-columns:1fr}.science-cards{grid-template-columns:1fr}}
 
 /* service picker cards */
 .picker{margin-top:50px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -162,6 +180,7 @@ footer .foot-links a{text-decoration:none}
       <a href="#remote">Remote Training</a>
       <a href="https://squareup.com/appointments/book/LBCF4ZN6AQF53/start" target="_blank" rel="noopener">Book Now</a>
       <a href="#about">About Me</a>
+      <a href="#science">The Science</a>
       <a href="#reviews">Reviews</a>
       <a href="https://www.amazon.co.uk/dp/B0DK486N1K" target="_blank" rel="noopener">My Book</a>
     </div>
@@ -171,8 +190,22 @@ footer .foot-links a{text-decoration:none}
 <main>
 <section class="hero">
   <div class="wrap">
+    <div class="hero-grid">
+      <div>
     <h1>Training that changes your dog's life, <span class="mark">and yours.</span></h1>
     <p class="lead">If you follow my methods, your dog will receive more training in a week than most dogs receive in a lifetime. That's real, lasting change, for your dog and for you. Book a session if you're in the North West of England, or send me a video if you're anywhere else in the world.</p>
+
+      </div>
+      <div>
+        <img class="hero-photo" src="https://images.pexels.com/photos/5482552/pexels-photo-5482552.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Dog owner training a Dalmatian outdoors">
+        <p class="photo-caption">Training is about communication, not just commands.</p>
+      </div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-card"><div class="stat">8.4</div><p>point reduction in loneliness at 3 months in one controlled dog-acquisition study.</p></div>
+      <div class="stat-card"><div class="stat">1,693</div><p>UK dog owners included in research examining the dog–owner relationship and wellbeing.</p></div>
+      <div class="stat-card"><div class="stat">709</div><p>dog owners followed prospectively in research linking behaviour problems with owner wellbeing.</p></div>
+    </div>
 
     <div class="picker">
       <div class="svc-card">
@@ -200,6 +233,25 @@ footer .foot-links a{text-decoration:none}
         <p>Send me a video on WhatsApp and I'll send back a plan. You pay once you've had it, not before.</p>
         <a class="btn btn-ghost" href="#remote">See remote training</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="science" id="science">
+  <div class="wrap science-grid">
+    <div>
+      <span class="svc-tag">The science behind the approach</span>
+      <h2>There's more going on than teaching a dog to sit.</h2>
+      <p class="science-intro">I don't need to give away every detail of how I train to explain why it works. Good training is built around how dogs learn, what motivates them, how emotion affects behaviour, and how the human changes the environment around the dog.</p>
+    </div>
+    <div>
+      <div class="science-cards">
+        <article class="science-card"><div class="science-num">01 · Learning</div><h3>Behaviour follows consequences</h3><p>Dogs learn from what happens immediately around a behaviour. Training becomes more reliable when the right behaviour is made worthwhile and repeatable.</p></article>
+        <article class="science-card"><div class="science-num">02 · Emotion</div><h3>State matters before skill</h3><p>A dog that is frightened, frustrated or highly aroused may not be in the best state for learning. Understanding that state changes what you do next.</p></article>
+        <article class="science-card"><div class="science-num">03 · Context</div><h3>Dogs don't live in a training room</h3><p>A behaviour that works in a quiet kitchen can fall apart outside. Real progress means building useful behaviour into the places and situations that actually matter.</p></article>
+        <article class="science-card"><div class="science-num">04 · The human</div><h3>Training changes both sides</h3><p>The owner is part of the learning system. Clear timing, predictable routines and consistency can change what the dog experiences every day.</p></article>
+      </div>
+      <p class="science-note">Research is encouraging, but it isn't magic: studies of dog ownership and behaviour have limitations, and an association does not automatically prove causation. The aim is to use the evidence intelligently alongside what we can actually observe in the individual dog.</p>
     </div>
   </div>
 </section>
