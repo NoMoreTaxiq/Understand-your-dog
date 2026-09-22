@@ -421,6 +421,17 @@ footer .foot-links a{text-decoration:none}
       });
     });
   }
+  document.querySelectorAll('a[href*="wa.me/"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (typeof fbq === 'function') fbq('track', 'Contact', {content_name: 'WhatsApp enquiry'});
+    });
+  });
+
+  document.querySelectorAll('a[href*="squareup.com/appointments"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', {content_name: 'In-person booking'});
+    });
+  });
 </script>
 </body>
 </html>
