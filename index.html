@@ -410,73 +410,55 @@ footer .foot-links a{text-decoration:none}
     var priceEl = document.getElementById('remotePrice');
     if (!priceEl) return;
 
-    // Country code -> local currency. IPWho supplies the visitor's country code.
+    // Fallback rates. The live rate is requested first; these keep the feature working if that request is blocked.
+    var rates = { GBP:1, EUR:1.16559, USD:1.33453, CAD:1.87575, AUD:1.87725, NZD:2.33082, ZAR:21.62031 };
     var currencyByCountry = {
       GB:'GBP', IE:'EUR', US:'USD', CA:'CAD', AU:'AUD', NZ:'NZD', ZA:'ZAR',
       AT:'EUR', BE:'EUR', CY:'EUR', EE:'EUR', FI:'EUR', FR:'EUR', DE:'EUR',
       GR:'EUR', HR:'EUR', IT:'EUR', LV:'EUR', LT:'EUR', LU:'EUR', MT:'EUR',
       NL:'EUR', PT:'EUR', SK:'EUR', SI:'EUR', ES:'EUR', AD:'EUR', MC:'EUR',
-      SM:'EUR', VA:'EUR', ME:'EUR', XK:'EUR',
-      CH:'CHF', NO:'NOK', SE:'SEK', DK:'DKK', IS:'ISK', PL:'PLN', CZ:'CZK',
-      HU:'HUF', RO:'RON', BG:'BGN', RS:'RSD', AL:'ALL', BA:'BAM', MK:'MKD',
-      UA:'UAH', MD:'MDL', TR:'TRY',
-      JP:'JPY', CN:'CNY', HK:'HKD', SG:'SGD', MY:'MYR', TH:'THB', ID:'IDR',
-      PH:'PHP', IN:'INR', PK:'PKR', BD:'BDT', LK:'LKR', KR:'KRW', VN:'VND',
-      TW:'TWD', AE:'AED', SA:'SAR', QA:'QAR', KW:'KWD', BH:'BHD', OM:'OMR',
-      IL:'ILS', JO:'JOD', EG:'EGP',
-      BR:'BRL', MX:'MXN', AR:'ARS', CL:'CLP', CO:'COP', PE:'PEN', UY:'UYU',
-      CR:'CRC', PA:'PAB', DO:'DOP', GT:'GTQ',
-      NG:'NGN', KE:'KES', GH:'GHS', TZ:'TZS', UG:'UGX', BW:'BWP', NA:'NAD',
-      MU:'MUR', SC:'SCR', ZM:'ZMW', MZ:'MZN', ET:'ETB', MA:'MAD', TN:'TND',
-      DZ:'DZD',
-      RU:'RUB',
-      FJ:'FJD', PG:'PGK', WS:'WST', TO:'TOP', VU:'VUV', SB:'SBD',
-      JM:'JMD', TT:'TTD', BB:'BBD', BS:'BSD', BZ:'BZD',
-      KY:'KYD', BM:'BMD',
-      AF:'AFN', AM:'AMD', AZ:'AZN', GE:'GEL', KZ:'KZT', KG:'KGS', MN:'MNT',
-      UZ:'UZS',
-      KH:'KHR', LA:'LAK', MM:'MMK', NP:'NPR'
+      SM:'EUR', VA:'EUR', ME:'EUR', XK:'EUR', CH:'CHF', NO:'NOK', SE:'SEK', DK:'DKK',
+      JP:'JPY', CN:'CNY', HK:'HKD', SG:'SGD', MY:'MYR', IN:'INR', AE:'AED', SA:'SAR',
+      NG:'NGN', KE:'KES', GH:'GHS', BR:'BRL', MX:'MXN'
     };
 
-    function setPrice(currency, rate) {
-      currency = (currency || 'GBP').toUpperCase();
-      rate = Number(rate);
+    function display(currency, rate) {
+      if (!rate) rate = rates[currency];
       if (!rate) return;
       try {
         priceEl.textContent = new Intl.NumberFormat(undefined, {
-          style: 'currency', currency: currency, maximumFractionDigits: 0
+          style:'currency', currency:currency, maximumFractionDigits:0
         }).format(35 * rate);
       } catch (e) {
         priceEl.textContent = '£35';
       }
     }
 
-    // Show the normal UK price immediately, then replace it when the visitor's country is known.
-    setPrice('GBP', 1);
+    function applyCountry(countryCode) {
+      var currency = currencyByCountry[String(countryCode || '').toUpperCase()] || 'GBP';
+      if (currency === 'GBP') {
+        display('GBP', 1);
+        return;
+      }
+      // Use the latest available GBP rate, but never leave the visitor stuck on £35 if the rate API fails.
+      fetch('https://open.er-api.com/v6/latest/GBP', {cache:'no-store'})
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          display(currency, data && data.rates && data.rates[currency]);
+        })
+        .catch(function () { display(currency); });
+    }
 
-    fetch('https://ipwho.is/', { cache: 'no-store' })
-      .then(function (response) {
-        if (!response.ok) throw new Error('Location lookup failed');
-        return response.json();
-      })
-      .then(function (data) {
-        var currency = currencyByCountry[data.country_code];
-        if (!currency) return;
-        if (currency === 'GBP') {
-          setPrice('GBP', 1);
-          return;
-        }
-        return fetch('https://open.er-api.com/v6/latest/GBP', { cache: 'no-store' })
-          .then(function (response) { return response.json(); })
-          .then(function (rates) {
-            if (rates && rates.rates && rates.rates[currency]) {
-              setPrice(currency, rates.rates[currency]);
-            }
-          });
-      })
-      .catch(function () {
-        // If location lookup is unavailable, leave the £35 base price in place.
-      });
+    // JSONP avoids browser CORS/ad-blocking problems with IP lookup fetch requests.
+    window.__andrewCurrencyLocation = function (data) {
+      if (data && data.country_code) applyCountry(data.country_code);
+    };
+
+    display('GBP', 1);
+    var locationScript = document.createElement('script');
+    locationScript.src = 'https://ipapi.co/jsonp/?callback=__andrewCurrencyLocation';
+    locationScript.async = true;
+    document.head.appendChild(locationScript);
   }());
 
   var toggle = document.getElementById('menuToggle');
