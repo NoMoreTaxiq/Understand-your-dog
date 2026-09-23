@@ -502,6 +502,7 @@ footer .foot-links a{text-decoration:none}
       noteEl.style.display = 'none';
       return;
     }
+    noteEl.style.display = 'block';
     var converted = 35 * rates[currency];
     var decimals = currency === 'ZAR' ? 0 : 0;
     var formatted = converted.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
