@@ -405,109 +405,47 @@ footer .foot-links a{text-decoration:none}
 </footer>
 
 <script>
-  // Display the £35 remote-training price in the visitor's local currency.
+  // Display the £35 remote-training price using the visitor's country.
   (function () {
     var priceEl = document.getElementById('remotePrice');
     var noteEl = document.getElementById('remotePriceNote');
     if (!priceEl || !noteEl) return;
-    var rates = {
-      GBP: 1,
-      USD: 1.35,
-      CAD: 1.85,
-      AUD: 2.03,
-      NZD: 2.28,
-      EUR: 1.17,
-      ZAR: 24.0
-    };
-    var symbols = {GBP:'£',USD:'
-  var links = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('open');
-    });
-    links.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        links.classList.remove('open');
-      });
-    });
-  }
-</script>
-</body>
-</html>
 
-,CAD:'C
-  var links = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('open');
-    });
-    links.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        links.classList.remove('open');
-      });
-    });
-  }
-</script>
-</body>
-</html>
-
-,AUD:'A
-  var links = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('open');
-    });
-    links.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        links.classList.remove('open');
-      });
-    });
-  }
-</script>
-</body>
-</html>
-
-,NZD:'NZ
-  var links = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('open');
-    });
-    links.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        links.classList.remove('open');
-      });
-    });
-  }
-</script>
-</body>
-</html>
-
-,EUR:'€',ZAR:'R'};
-    var currencyNames = {GBP:'GBP',USD:'USD',CAD:'CAD',AUD:'AUD',NZD:'NZD',EUR:'EUR',ZAR:'ZAR'};
+    var rates = { GBP:1, USD:1.35, CAD:1.85, AUD:2.03, NZD:2.28, EUR:1.17, ZAR:24.0 };
+    var symbols = { GBP:'£', USD:'$', CAD:'C$', AUD:'A$', NZD:'NZ$', EUR:'€', ZAR:'R' };
     var countryCurrency = {
-      GB:'GBP', US:'USD', CA:'CAD', AU:'AUD', NZ:'NZD', IE:'EUR',
-      ZA:'ZAR', AT:'EUR', BE:'EUR', CY:'EUR', EE:'EUR', FI:'EUR', FR:'EUR',
-      DE:'EUR', GR:'EUR', HR:'EUR', IT:'EUR', LV:'EUR', LT:'EUR', LU:'EUR',
-      MT:'EUR', NL:'EUR', PT:'EUR', SK:'EUR', SI:'EUR', ES:'EUR'
+      GB:'GBP', US:'USD', CA:'CAD', AU:'AUD', NZ:'NZD', IE:'EUR', ZA:'ZAR',
+      AT:'EUR', BE:'EUR', CY:'EUR', EE:'EUR', FI:'EUR', FR:'EUR', DE:'EUR',
+      GR:'EUR', HR:'EUR', IT:'EUR', LV:'EUR', LT:'EUR', LU:'EUR', MT:'EUR',
+      NL:'EUR', PT:'EUR', SK:'EUR', SI:'EUR', ES:'EUR'
     };
-    var currency = 'GBP';
-    try {
-      var locale = Intl.DateTimeFormat().resolvedOptions().locale || '';
-      var region = locale.match(/[-_]([A-Z]{2})$/);
-      if (region && countryCurrency[region[1]]) currency = countryCurrency[region[1]];
-    } catch (e) {}
-    if (currency === 'GBP') {
-      priceEl.innerHTML = '<span>£</span>35';
-      noteEl.style.display = 'none';
-      return;
+
+    function showCurrency(countryCode) {
+      var currency = countryCurrency[countryCode] || 'GBP';
+      if (currency === 'GBP') {
+        priceEl.innerHTML = '<span>£</span>35';
+        noteEl.style.display = 'none';
+        return;
+      }
+      var converted = 35 * rates[currency];
+      var formatted = converted.toLocaleString(undefined, {maximumFractionDigits:0});
+      priceEl.innerHTML = '<span>' + symbols[currency] + '</span>' + formatted;
+      noteEl.textContent = 'Equivalent to £35 GBP';
+      noteEl.style.display = 'block';
     }
-    noteEl.style.display = 'block';
-    var converted = 35 * rates[currency];
-    var decimals = currency === 'ZAR' ? 0 : 0;
-    var formatted = converted.toLocaleString(undefined, {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
-    priceEl.innerHTML = '<span>' + symbols[currency] + '</span>' + formatted;
-    noteEl.textContent = 'Equivalent to £35 GBP (' + currencyNames[currency] + ')';
+
+    // Start with GBP, then use the visitor's IP country so a VPN is detected.
+    showCurrency('GB');
+    fetch('https://ipapi.co/json/')
+      .then(function (response) { return response.json(); })
+      .then(function (data) { showCurrency(data.country_code); })
+      .catch(function () {
+        try {
+          var locale = Intl.DateTimeFormat().resolvedOptions().locale || '';
+          var region = locale.match(/[-_]([A-Z]{2})$/);
+          if (region && countryCurrency[region[1]]) showCurrency(region[1]);
+        } catch (e) {}
+      });
   }());
 
   var toggle = document.getElementById('menuToggle');
