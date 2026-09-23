@@ -499,7 +499,7 @@ footer .foot-links a{text-decoration:none}
     } catch (e) {}
     if (currency === 'GBP') {
       priceEl.innerHTML = '<span>£</span>35';
-      noteEl.textContent = '';
+      noteEl.style.display = 'none';
       return;
     }
     var converted = 35 * rates[currency];
