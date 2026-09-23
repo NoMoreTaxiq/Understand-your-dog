@@ -406,6 +406,84 @@ footer .foot-links a{text-decoration:none}
 
 
 <script>
+  // Show the £35 remote-training price in the visitor's local currency.
+  (function () {
+    var priceEl = document.getElementById('remotePrice');
+    if (!priceEl) return;
+
+    var GBP_PRICE = 35;
+
+    function showPrice(currency, rate) {
+      if (!currency || currency === 'GBP') {
+        priceEl.textContent = '£35';
+        return;
+      }
+      if (!rate || !isFinite(rate)) return;
+      try {
+        priceEl.textContent = new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: currency,
+          maximumFractionDigits: 0
+        }).format(GBP_PRICE * rate);
+      } catch (e) {}
+    }
+
+    function getRate(currency) {
+      return fetch('https://open.er-api.com/v6/latest/GBP', { cache: 'no-store' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Exchange-rate request failed');
+          return response.json();
+        })
+        .then(function (data) {
+          var rate = data && data.rates && data.rates[currency];
+          if (!rate) throw new Error('Currency rate unavailable');
+          showPrice(currency, rate);
+        });
+    }
+
+    function applyCountryData(data) {
+      var country = data && data.country_code;
+      var currency = data && data.currency && data.currency.code;
+      if (!currency && country === 'GB') currency = 'GBP';
+      if (!currency) return;
+      if (currency === 'GBP') {
+        showPrice('GBP', 1);
+      } else {
+        getRate(currency).catch(function () {});
+      }
+    }
+
+    // Primary lookup: uses the visitor's public IP and returns the country/currency.
+    fetch('https://ipwho.is/', { cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Location request failed');
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data || data.success === false) throw new Error('Location unavailable');
+        applyCountryData({
+          country_code: data.country_code,
+          currency: data.currency
+        });
+      })
+      .catch(function () {
+        // Fallback: ipapi also supports browser-side JSONP.
+        window.__andrewCurrencyLocation = function (data) {
+          if (!data || !data.country_code) return;
+          if (data.country_code === 'GB') {
+            showPrice('GBP', 1);
+            return;
+          }
+          if (data.currency) getRate(data.currency).catch(function () {});
+        };
+        var fallback = document.createElement('script');
+        fallback.src = 'https://ipapi.co/jsonp/?callback=__andrewCurrencyLocation';
+        fallback.async = true;
+        document.head.appendChild(fallback);
+      });
+
+  }());
+
   var toggle = document.getElementById('menuToggle');
   var links = document.getElementById('navLinks');
   if (toggle && links) {
