@@ -301,7 +301,7 @@ footer .foot-links a{text-decoration:none}
       </div>
       <div class="price-line">
         <div class="amount" id="remotePrice"><span>£</span>35</div>
-        <div id="remotePriceNote" class="price-note" style="display:none">Equivalent to £35 GBP</div>
+        
         <a class="btn btn-lg" href="https://wa.me/447868188400?text=Hi%20Andrew%2C%20I%27d%20like%20to%20send%20a%20video%20of%20my%20dog%27s%20behaviour%20for%20analysis" target="_blank" rel="noopener">Send your video on WhatsApp</a>
       </div>
     </div>
@@ -408,22 +408,17 @@ footer .foot-links a{text-decoration:none}
   // Detect the visitor's country and display the £35 price in their local currency.
   (function () {
     var priceEl = document.getElementById('remotePrice');
-    var noteEl = document.getElementById('remotePriceNote');
     if (!priceEl) return;
-    if (noteEl) noteEl.style.display = 'none';
 
     var fallbackRates = { GBP:1, USD:1.35, EUR:1.17, CAD:1.85, AUD:2.03, NZD:2.28, ZAR:24.0 };
 
     function setPrice(currency, rate) {
       currency = (currency || 'GBP').toUpperCase();
-      rate = Number(rate);
-      if (!rate || !isFinite(rate)) rate = fallbackRates[currency];
+      rate = Number(rate) || fallbackRates[currency];
       if (!rate) return;
       try {
         priceEl.textContent = new Intl.NumberFormat(undefined, {
-          style: 'currency',
-          currency: currency,
-          maximumFractionDigits: currency === 'JPY' || currency === 'KRW' ? 0 : 0
+          style: 'currency', currency: currency, maximumFractionDigits: 0
         }).format(35 * rate);
       } catch (e) {
         priceEl.textContent = '£35';
@@ -432,40 +427,26 @@ footer .foot-links a{text-decoration:none}
 
     function getRate(currency) {
       if (currency === 'GBP') return Promise.resolve(1);
-      return fetch('https://open.er-api.com/v6/latest/GBP')
+      return fetch('https://open.er-api.com/v6/latest/GBP', {cache:'no-store'})
         .then(function (response) { return response.json(); })
         .then(function (data) { return data && data.rates ? data.rates[currency] : null; });
     }
 
     function detectVisitor() {
-      return fetch('https://ipapi.co/json/', { cache: 'no-store' })
-        .then(function (response) {
-          if (!response.ok) throw new Error('IP lookup failed');
-          return response.json();
-        })
-        .then(function (data) {
-          var currency = data.currency;
-          if (!currency) throw new Error('Currency not returned');
-          return currency;
-        })
+      return fetch('https://ipapi.co/json/', {cache:'no-store'})
+        .then(function (response) { if (!response.ok) throw new Error(); return response.json(); })
+        .then(function (data) { if (!data.currency) throw new Error(); return data.currency; })
         .catch(function () {
-          return fetch('https://ipwho.is/', { cache: 'no-store' })
+          return fetch('https://ipwho.is/', {cache:'no-store'})
             .then(function (response) { return response.json(); })
-            .then(function (data) {
-              if (!data || !data.success || !data.currency || !data.currency.code) throw new Error('Second IP lookup failed');
-              return data.currency.code;
-            });
+            .then(function (data) { if (!data || !data.success || !data.currency || !data.currency.code) throw new Error(); return data.currency.code; });
         });
     }
 
     setPrice('GBP', 1);
-    detectVisitor()
-      .then(function (currency) {
-        return getRate(currency).then(function (rate) { setPrice(currency, rate); });
-      })
-      .catch(function () {
-        // Keep the base £35 price if location or exchange-rate lookup is unavailable.
-      });
+    detectVisitor().then(function (currency) {
+      return getRate(currency).then(function (rate) { setPrice(currency, rate); });
+    }).catch(function () {});
   }());
 
   var toggle = document.getElementById('menuToggle');
