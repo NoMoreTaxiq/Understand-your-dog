@@ -405,46 +405,66 @@ footer .foot-links a{text-decoration:none}
 </footer>
 
 <script>
-  // Display the £35 remote-training price using the visitor's country.
+  // Detect the visitor's country and display the £35 price in their local currency.
   (function () {
     var priceEl = document.getElementById('remotePrice');
     var noteEl = document.getElementById('remotePriceNote');
-    if (!priceEl || !noteEl) return;
+    if (!priceEl) return;
+    if (noteEl) noteEl.style.display = 'none';
 
-    var rates = { GBP:1, USD:1.35, CAD:1.85, AUD:2.03, NZD:2.28, EUR:1.17, ZAR:24.0 };
-    var symbols = { GBP:'£', USD:'$', CAD:'C$', AUD:'A$', NZD:'NZ$', EUR:'€', ZAR:'R' };
-    var countryCurrency = {
-      GB:'GBP', US:'USD', CA:'CAD', AU:'AUD', NZ:'NZD', IE:'EUR', ZA:'ZAR',
-      AT:'EUR', BE:'EUR', CY:'EUR', EE:'EUR', FI:'EUR', FR:'EUR', DE:'EUR',
-      GR:'EUR', HR:'EUR', IT:'EUR', LV:'EUR', LT:'EUR', LU:'EUR', MT:'EUR',
-      NL:'EUR', PT:'EUR', SK:'EUR', SI:'EUR', ES:'EUR'
-    };
+    var fallbackRates = { GBP:1, USD:1.35, EUR:1.17, CAD:1.85, AUD:2.03, NZD:2.28, ZAR:24.0 };
 
-    function showCurrency(countryCode) {
-      var currency = countryCurrency[countryCode] || 'GBP';
-      if (currency === 'GBP') {
-        priceEl.innerHTML = '<span>£</span>35';
-        noteEl.style.display = 'none';
-        return;
+    function setPrice(currency, rate) {
+      currency = (currency || 'GBP').toUpperCase();
+      rate = Number(rate);
+      if (!rate || !isFinite(rate)) rate = fallbackRates[currency];
+      if (!rate) return;
+      try {
+        priceEl.textContent = new Intl.NumberFormat(undefined, {
+          style: 'currency',
+          currency: currency,
+          maximumFractionDigits: currency === 'JPY' || currency === 'KRW' ? 0 : 0
+        }).format(35 * rate);
+      } catch (e) {
+        priceEl.textContent = '£35';
       }
-      var converted = 35 * rates[currency];
-      var formatted = converted.toLocaleString(undefined, {maximumFractionDigits:0});
-      priceEl.innerHTML = '<span>' + symbols[currency] + '</span>' + formatted;
-      noteEl.textContent = 'Equivalent to £35 GBP';
-      noteEl.style.display = 'block';
     }
 
-    // Start with GBP, then use the visitor's IP country so a VPN is detected.
-    showCurrency('GB');
-    fetch('https://ipapi.co/json/')
-      .then(function (response) { return response.json(); })
-      .then(function (data) { showCurrency(data.country_code); })
+    function getRate(currency) {
+      if (currency === 'GBP') return Promise.resolve(1);
+      return fetch('https://open.er-api.com/v6/latest/GBP')
+        .then(function (response) { return response.json(); })
+        .then(function (data) { return data && data.rates ? data.rates[currency] : null; });
+    }
+
+    function detectVisitor() {
+      return fetch('https://ipapi.co/json/', { cache: 'no-store' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('IP lookup failed');
+          return response.json();
+        })
+        .then(function (data) {
+          var currency = data.currency;
+          if (!currency) throw new Error('Currency not returned');
+          return currency;
+        })
+        .catch(function () {
+          return fetch('https://ipwho.is/', { cache: 'no-store' })
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+              if (!data || !data.success || !data.currency || !data.currency.code) throw new Error('Second IP lookup failed');
+              return data.currency.code;
+            });
+        });
+    }
+
+    setPrice('GBP', 1);
+    detectVisitor()
+      .then(function (currency) {
+        return getRate(currency).then(function (rate) { setPrice(currency, rate); });
+      })
       .catch(function () {
-        try {
-          var locale = Intl.DateTimeFormat().resolvedOptions().locale || '';
-          var region = locale.match(/[-_]([A-Z]{2})$/);
-          if (region && countryCurrency[region[1]]) showCurrency(region[1]);
-        } catch (e) {}
+        // Keep the base £35 price if location or exchange-rate lookup is unavailable.
       });
   }());
 
