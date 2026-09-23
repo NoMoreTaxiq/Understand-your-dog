@@ -441,47 +441,32 @@ footer .foot-links a{text-decoration:none}
         });
     }
 
-    function applyCountryData(data) {
-      var country = data && data.country_code;
-      var currency = data && data.currency && data.currency.code;
-      if (!currency && country === 'GB') currency = 'GBP';
-      if (!currency) return;
+    function applyLocation(data) {
+      if (!data) return;
+      var currency = data.currency;
+      if (!currency && data.country_code === 'GB') currency = 'GBP';
+      if (!currency) throw new Error('Currency unavailable');
       if (currency === 'GBP') {
         showPrice('GBP', 1);
       } else {
-        getRate(currency).catch(function () {});
+        return getRate(currency);
       }
     }
 
-    // Primary lookup: uses the visitor's public IP and returns the country/currency.
-    fetch('https://ipwho.is/', { cache: 'no-store' })
-      .then(function (response) {
-        if (!response.ok) throw new Error('Location request failed');
-        return response.json();
-      })
-      .then(function (data) {
-        if (!data || data.success === false) throw new Error('Location unavailable');
-        applyCountryData({
-          country_code: data.country_code,
-          currency: data.currency
-        });
-      })
-      .catch(function () {
-        // Fallback: ipapi also supports browser-side JSONP.
-        window.__andrewCurrencyLocation = function (data) {
-          if (!data || !data.country_code) return;
-          if (data.country_code === 'GB') {
-            showPrice('GBP', 1);
-            return;
-          }
-          if (data.currency) getRate(data.currency).catch(function () {});
-        };
-        var fallback = document.createElement('script');
-        fallback.src = 'https://ipapi.co/jsonp/?callback=__andrewCurrencyLocation';
-        fallback.async = true;
-        document.head.appendChild(fallback);
-      });
+    // Use ipapi's browser JSONP endpoint so the lookup works reliably from the website.
+    // It returns the visitor's public-IP country and currency directly.
+    window.__andrewCurrencyLocation = function (data) {
+      try {
+        applyLocation(data);
+      } catch (e) {
+        // Keep the displayed £35 if the location service cannot provide a currency.
+      }
+    };
 
+    var lookup = document.createElement('script');
+    lookup.src = 'https://ipapi.co/jsonp/?callback=__andrewCurrencyLocation';
+    lookup.async = true;
+    document.head.appendChild(lookup);
   }());
 
   var toggle = document.getElementById('menuToggle');
