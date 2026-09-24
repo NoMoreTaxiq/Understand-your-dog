@@ -3,485 +3,115 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Dog training with Andrew, in person across the North West of England, or remotely from anywhere via video. You only pay after you see results.">
-<title>Andrew — The Dog Trainer</title>
+<meta name="description" content="Remote dog behaviour assessments by Andrew. Send a video of your dog's behaviour and receive a personalised analysis and practical training plan.">
+<title>Andrew — The Dog Trainer | Remote Dog Behaviour Assessments</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#211C15;
-  --paper:#FFF6E7;
-  --card:#FFFFFF;
-  --rust:#FF6A39;
-  --moss:#2E6E52;
-  --line:#F1E4C8;
-  --muted:#8A8172;
-  --dark:#1C2A21;
-  --yellow:#FFC94A;
-  --serif:"Bricolage Grotesque",Arial,sans-serif;
-  --sans:"Inter",Arial,sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px}
-h1,h2,h3{font-family:var(--serif);font-weight:700;margin:0;color:var(--ink);letter-spacing:-.01em}
-p{margin:0}
-a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 6vw}
-section{padding:70px 0}
-hr.divider{display:none}
-
-/* nav */
-.nav{position:sticky;top:0;z-index:20;background:rgba(241,236,223,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav-inner{max-width:1180px;margin:0 auto;padding:18px 6vw;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.brand{font-family:var(--serif);font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);white-space:nowrap}
-.nav-links{display:flex;align-items:center;gap:26px}
-.nav-links a:not(.btn){font-size:14px;text-decoration:none;color:var(--ink);white-space:nowrap}
-.menu-toggle{display:none;background:none;border:1px solid var(--ink);border-radius:4px;padding:9px 11px;cursor:pointer;flex:0 0 auto}
-.menu-toggle span{display:block;width:18px;height:2px;background:var(--ink);margin:4px 0}
-.btn{display:inline-block;background:var(--rust);color:#fff;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px;border:1px solid var(--rust);transition:transform .15s,background .15s;box-shadow:0 4px 14px rgba(255,106,57,.28)}
-.btn:hover{background:#E85A2C;transform:translateY(-1px)}
-.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink);box-shadow:none}
-.btn-ghost:hover{background:var(--ink);color:var(--paper);transform:translateY(-1px)}
-.btn-lg{padding:16px 28px;font-size:15px}
-
-/* hero */
-.hero{padding:70px 0 30px}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
-.hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.08;letter-spacing:-.01em;max-width:800px}
-.hero h1 .mark{background:linear-gradient(to bottom, transparent 58%, var(--yellow) 58%);padding:0 2px}
-.hero .lead{font-size:18px;color:#463F33;margin:22px 0 0;max-width:600px}
-.hero-photo{width:100%;aspect-ratio:1/1;border-radius:30px;object-fit:cover;box-shadow:0 18px 50px rgba(33,28,21,.15);transform:rotate(1.2deg)}
-.photo-caption{font-size:11px;color:var(--muted);margin:12px 0 0 8px}
-.stat-strip{margin-top:58px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.stat-card{background:var(--dark);color:#fff;border-radius:20px;padding:24px}
-.stat-card .stat{font-family:var(--serif);font-size:38px;line-height:1;color:var(--yellow);font-weight:800}
-.stat-card p{font-size:13px;color:#D7D2C6;margin-top:10px}
-.science{background:#F3E8D0}
-.science-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw;align-items:start}
-.science h2{font-size:clamp(28px,3.6vw,44px)}
-.science-intro{font-size:16px;color:#514A3D;margin-top:16px;max-width:430px}
-.science-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.science-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
-.science-card .science-num{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rust)}
-.science-card h3{font-size:19px;margin:8px 0}
-.science-card p{font-size:14px;color:#5C5548}
-.science-note{margin-top:18px;font-size:12px;color:#766D5E}
-@media(max-width:880px){.hero-grid{grid-template-columns:1fr}.hero-photo{aspect-ratio:16/10;transform:none}.stat-strip{grid-template-columns:1fr}.science-grid{grid-template-columns:1fr}.science-cards{grid-template-columns:1fr}}
-
-/* service picker cards */
-.picker{margin-top:50px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.svc-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:34px;box-shadow:0 6px 24px rgba(33,28,21,.06)}
-.icon-badge{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.icon-badge.orange{background:rgba(255,106,57,.14)}
-.icon-badge.green{background:rgba(46,110,82,.14)}
-.svc-icon{width:28px;height:28px}
-.svc-card h3{font-size:22px;margin-bottom:10px}
-.svc-card p{font-size:14px;color:var(--muted);margin-bottom:20px}
-.svc-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.02em;color:#fff;background:var(--rust);padding:5px 13px;border-radius:999px;margin-bottom:16px}
-
-/* generic service section */
-.svc-section{padding:80px 0}
-.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:start}
-.svc-grid h2{font-size:clamp(28px,3.6vw,44px);max-width:480px}
-.svc-grid .lead{font-size:16px;color:#463F33;margin-top:18px;max-width:460px}
-.svc-section.dark{background:radial-gradient(circle at 85% 0%,#24382C,var(--dark) 60%);color:#F2EFE4}
-.svc-section.dark h2{color:#F7F4EA}
-.svc-section.dark .lead{color:#C9C3B3}
-
-/* steps */
-.steps{margin-top:16px;display:grid;grid-template-columns:1fr;gap:0}
-.step{padding:22px 0;border-bottom:1px solid var(--line);display:flex;gap:18px;align-items:flex-start}
-.svc-section.dark .step{border-bottom-color:rgba(255,255,255,.1)}
-.step .num{font-family:var(--sans);font-weight:800;font-size:13px;color:#fff;background:var(--rust);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 30px;margin-top:2px}
-.step-body h3{font-size:17px;margin-bottom:4px}
-.step-body p{font-size:14px;color:var(--muted)}
-.svc-section.dark .step-body h3{color:#F7F4EA}
-.svc-section.dark .step-body p{color:#B8B2A3}
-
-/* pay-after badge */
-.pay-note{margin-top:26px;display:flex;gap:12px;align-items:flex-start;background:rgba(255,106,57,.12);border:1px solid rgba(255,106,57,.4);border-radius:14px;padding:16px 18px}
-.svc-section.dark .pay-note{background:rgba(255,106,57,.16);border-color:rgba(255,106,57,.45)}
-.pay-note p{font-size:14px}
-.pay-note strong{display:block;font-size:14px;margin-bottom:2px}
-
-.price-line{margin-top:28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.price-line .amount{font-family:var(--serif);font-size:32px;color:var(--rust)}
-.price-line .amount span{font-size:16px;vertical-align:top;margin-right:2px}
-.price-note{font-size:12px;color:var(--muted);margin-top:4px}
-.hours-table{margin-top:22px}
-.hours-label{font-size:12px;letter-spacing:.03em;color:var(--muted);margin-bottom:6px}
-.hours-row{display:flex;gap:16px;font-size:14px;color:var(--ink)}
-.hours-row span:first-child{color:var(--muted);min-width:90px}
-
-/* about */
-.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:start}
-.about-grid h2{font-size:clamp(26px,3vw,36px)}
-.about-grid p{font-size:16px;color:#463F33;margin-top:16px}
-.about-links{margin-top:20px;display:flex;gap:22px;flex-wrap:wrap}
-.about-links a{font-size:14px;text-decoration:underline;text-underline-offset:3px}
-
-/* reviews */
-.reviews-block{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:48px 6vw;text-align:left;box-shadow:0 6px 24px rgba(33,28,21,.06)}
-.reviews-block h2{font-size:clamp(26px,3vw,36px);margin-bottom:14px}
-.reviews-block p{font-size:15px;color:var(--muted);max-width:520px}
-.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
-.review-card{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px}
-.review-card p{font-family:var(--sans);font-weight:500;font-size:15px;color:var(--ink);margin-bottom:14px}
-.review-card cite{font-style:normal;font-size:13px;color:var(--muted)}
-@media(max-width:880px){.review-grid{grid-template-columns:1fr}}
-
-/* faq */
-.faq-list details{border-top:1px solid var(--line);padding:22px 0}
-.faq-list details:last-child{border-bottom:1px solid var(--line)}
-summary{cursor:pointer;list-style:none;font-family:var(--serif);font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-summary::-webkit-details-marker{display:none}
-summary:after{content:"+";font-family:var(--sans);font-weight:700;font-size:16px;color:var(--rust);background:rgba(255,106,57,.14);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 26px}
-details[open] summary:after{content:"\2212"}
-details p{font-size:15px;color:#4a4436;max-width:640px;margin:14px 0 0}
-
-/* closing */
-.closing{text-align:center;padding:80px 20px;margin:0 4vw 80px;border-radius:28px;background:radial-gradient(circle at 30% 20%,#FF8256,var(--rust) 70%);color:#fff}
-.closing h2{font-size:clamp(30px,4.2vw,48px);max-width:700px;margin:0 auto 30px;color:#fff}
-.closing-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.closing .btn{background:#fff;color:var(--rust);border-color:#fff;box-shadow:none}
-.closing .btn:hover{background:#FFF0E8}
-.closing .btn-ghost{background:transparent;color:#fff;border-color:#fff}
-.closing .btn-ghost:hover{background:#fff;color:var(--rust)}
-
-footer{border-top:1px solid var(--line);padding:34px 6vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-footer p{font-size:12px;color:var(--muted)}
-footer .foot-links{display:flex;gap:18px;font-size:13px}
-footer .foot-links a{text-decoration:none}
-
-@media(max-width:880px){
-  .picker{grid-template-columns:1fr}
-  .svc-grid{grid-template-columns:1fr;gap:30px}
-  .about-grid{grid-template-columns:1fr;gap:20px}
-  .nav-inner{padding:14px 4vw;gap:14px;position:relative}
-  .brand{font-size:13px}
-  .menu-toggle{display:block}
-  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:flex-start;gap:0;background:var(--paper);border:1px solid var(--line);border-top:none;padding:8px 4vw 16px;box-shadow:0 8px 16px rgba(0,0,0,.06)}
-  .nav-links.open{display:flex}
-  .nav-links a{width:100%;padding:12px 0;border-bottom:1px solid var(--line)}
-  .nav-links a.btn{width:auto;border-bottom:none;margin-top:10px;padding:10px 16px}
-}
+:root{--ink:#211C15;--paper:#FFF6E7;--card:#fff;--rust:#FF6A39;--moss:#2E6E52;--line:#F1E4C8;--muted:#766D5E;--dark:#1C2A21;--yellow:#FFC94A;--serif:"Bricolage Grotesque",Arial,sans-serif;--sans:"Inter",Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px}h1,h2,h3{font-family:var(--serif);font-weight:700;margin:0;letter-spacing:-.015em}p{margin:0}a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:0 6vw}section{padding:78px 0}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,246,231,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.nav-inner{max-width:1180px;margin:auto;padding:17px 6vw;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-family:var(--serif);font-size:16px;font-weight:700;text-decoration:none;white-space:nowrap}.nav-links{display:flex;align-items:center;gap:25px}.nav-links a:not(.btn){font-size:14px;text-decoration:none;white-space:nowrap}.menu-toggle{display:none;background:none;border:1px solid var(--ink);border-radius:4px;padding:9px 11px}.menu-toggle span{display:block;width:18px;height:2px;background:var(--ink);margin:4px 0}
+.btn{display:inline-block;background:var(--rust);color:#fff;padding:13px 24px;border-radius:999px;text-decoration:none;font-weight:800;font-size:14px;border:1px solid var(--rust);transition:.15s;box-shadow:0 4px 14px rgba(255,106,57,.25)}.btn:hover{transform:translateY(-1px);background:#E85A2C}.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none}.btn-lg{padding:16px 29px;font-size:15px}
+.hero{padding:74px 0 35px}.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:55px;align-items:center}.eyebrow,.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rust);margin-bottom:16px}.hero h1{font-size:clamp(40px,5.3vw,66px);line-height:1.02;max-width:760px}.hero h1 .mark{background:linear-gradient(to bottom,transparent 59%,var(--yellow) 59%);padding:0 2px}.hero .lead{font-size:19px;color:#463F33;margin:23px 0 0;max-width:650px}.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}.hero-note{font-size:12px;color:var(--muted);margin-top:13px}.hero-photo{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:30px;box-shadow:0 18px 50px rgba(33,28,21,.15);transform:rotate(1deg)}
+.trust{margin-top:58px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.trust-card{background:var(--dark);color:#fff;border-radius:20px;padding:24px}.trust-card strong{font-family:var(--serif);font-size:27px;color:var(--yellow);display:block}.trust-card p{font-size:13px;color:#D7D2C6;margin-top:7px}
+.problem{background:#F3E8D0}.section-head{max-width:760px}.section-head h2{font-size:clamp(30px,4vw,48px);line-height:1.08}.section-head p{font-size:17px;color:#514A3D;margin-top:16px}.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:35px}.problem-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}.problem-card h3{font-size:19px;margin-bottom:7px}.problem-card p{font-size:14px;color:#5C5548}.problem-card span{font-size:12px;font-weight:800;color:var(--rust);text-transform:uppercase;letter-spacing:.06em}
+.dark{background:radial-gradient(circle at 85% 0%,#294333,var(--dark) 60%);color:#F7F4EA}.dark h2{color:#F7F4EA}.dark p{color:#C9C3B3}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px}.step{border-top:1px solid rgba(255,255,255,.16);padding-top:20px}.step-num{font-weight:800;color:var(--yellow);font-size:12px}.step h3{font-size:20px;margin:7px 0;color:#F7F4EA}.step p{font-size:14px}
+.report{background:#fff}.report-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:55px;align-items:start}.report-copy h2{font-size:clamp(30px,4vw,47px);line-height:1.08}.report-copy p{color:#514A3D;margin-top:17px}.report-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 8px 28px rgba(33,28,21,.07)}.report-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:18px}.report-top strong{font-family:var(--serif);font-size:22px}.report-label{font-size:11px;font-weight:800;color:var(--rust);text-transform:uppercase;letter-spacing:.07em}.report-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.report-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px}.report-item strong{display:block;font-size:14px}.report-item span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.report-cta{margin-top:18px;font-size:13px;color:#514A3D}
+.order{padding:88px 0}.order-box{background:var(--rust);border-radius:30px;padding:55px 6vw;color:#fff;display:grid;grid-template-columns:1.2fr .8fr;gap:45px;align-items:center}.order-box h2{font-size:clamp(32px,4vw,52px);line-height:1.05;color:#fff}.order-box p{color:#FFF1EA;margin-top:15px}.price{font-family:var(--serif);font-size:46px;font-weight:800;margin-bottom:14px}.price small{font-family:var(--sans);font-size:14px;font-weight:600}.order-list{list-style:none;padding:0;margin:20px 0}.order-list li{margin:9px 0}.order-list li:before{content:"✓";font-weight:900;margin-right:10px}.order-box .btn{background:#fff;color:var(--rust);border-color:#fff;box-shadow:none}.order-note{font-size:11px!important;color:#FFE1D6!important;margin-top:12px!important}
+.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw}.about h2{font-size:clamp(28px,3.5vw,42px)}.about p{color:#463F33;margin-top:15px}.about-links{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}.about-links a{font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.faq{max-width:760px}.faq h2{font-size:clamp(28px,3.5vw,42px)}details{border-top:1px solid var(--line);padding:20px 0}details:last-child{border-bottom:1px solid var(--line)}summary{cursor:pointer;list-style:none;font-family:var(--serif);font-weight:700;font-size:18px;display:flex;justify-content:space-between}summary::-webkit-details-marker{display:none}summary:after{content:"+";color:var(--rust);font-family:var(--sans)}details[open] summary:after{content:"−"}details p{color:#4a4436;font-size:14px;margin-top:12px;max-width:650px}
+.closing{text-align:center;padding:82px 20px;margin:0 4vw 70px;border-radius:28px;background:var(--dark);color:#fff}.closing h2{font-size:clamp(32px,4.2vw,50px);color:#fff;max-width:760px;margin:auto}.closing p{color:#C9C3B3;margin:15px auto 26px;max-width:620px}.closing .btn{background:var(--yellow);color:var(--dark);border-color:var(--yellow);box-shadow:none}
+footer{border-top:1px solid var(--line);padding:32px 6vw;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}footer p,footer a{font-size:12px;color:var(--muted)}footer .brand{color:var(--ink)}
+@media(max-width:880px){.hero-grid,.report-grid,.order-box,.about{grid-template-columns:1fr}.hero-photo{aspect-ratio:16/10;transform:none}.trust,.problem-grid,.steps,.report-list{grid-template-columns:1fr}.nav-inner{padding:14px 4vw;position:relative}.brand{font-size:13px}.menu-toggle{display:block}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:flex-start;gap:0;background:var(--paper);border:1px solid var(--line);border-top:none;padding:8px 4vw 16px}.nav-links.open{display:flex}.nav-links a{width:100%;padding:12px 0;border-bottom:1px solid var(--line)}.nav-links a.btn{width:auto;border-bottom:none;margin-top:10px}.order-box{padding:38px 28px}}
 </style>
 </head>
 <body>
-
-<div class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="#">Andrew — The Dog Trainer</a>
-    <button class="menu-toggle" aria-label="Open menu" id="menuToggle">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="#remote">Remote Training</a>
-      <a href="https://squareup.com/appointments/book/LBCF4ZN6AQF53/start" target="_blank" rel="noopener">Book Now</a>
-      <a href="#about">About Me</a>
-      <a href="#science">The Science</a>
-      <a href="#reviews">Reviews</a>
-      <a href="https://www.amazon.co.uk/dp/B0DK486N1K" target="_blank" rel="noopener">My Book</a>
-    </div>
-  </div>
-</div>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="#">Andrew — The Dog Trainer</a>
+<button class="menu-toggle" aria-label="Open menu" id="menuToggle"><span></span><span></span><span></span></button>
+<div class="nav-links" id="navLinks">
+<a href="#how">How It Works</a><a href="#sample">Sample Assessment</a><a href="#problems">Behaviour Problems</a><a href="#about">About</a>
+<a class="btn" href="#book">Book Your Assessment</a>
+</div></div></nav>
 
 <main>
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-    <h1>Training that changes your dog's life, <span class="mark">and yours.</span></h1>
-    <p class="lead">If you follow my methods, your dog will receive more training in a week than most dogs receive in a lifetime. That's real, lasting change, for your dog and for you. Book a session if you're in the North West of England, or send me a video if you're anywhere else in the world.</p>
+<section class="hero"><div class="wrap"><div class="hero-grid">
+<div>
+<div class="eyebrow">Remote dog behaviour assessment · Worldwide</div>
+<h1>Your dog is trying to tell you something. <span class="mark">Let's understand it.</span></h1>
+<p class="lead">Send me a video of the behaviour you're struggling with. I'll analyse what I'm seeing, explain what's happening and give you a practical training plan built around your dog.</p>
+<div class="hero-actions"><a class="btn btn-lg" href="#book">Book Your Assessment</a><a class="btn btn-lg btn-ghost" href="#sample">See a sample assessment</a></div>
+<p class="hero-note">You don't upload your video on the website. Once your assessment is booked and paid for, I'll send you everything you need to send the footage.</p>
+</div>
+<div><img class="hero-photo" src="https://images.pexels.com/photos/5482552/pexels-photo-5482552.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Dog owner training a dog outdoors"></div>
+</div>
+<div class="trust">
+<div class="trust-card"><strong>Personalised</strong><p>Your assessment is based on your dog's actual behaviour, not a generic training article.</p></div>
+<div class="trust-card"><strong>Practical</strong><p>Clear recommendations you can actually use at home, on walks and in everyday life.</p></div>
+<div class="trust-card"><strong>Worldwide</strong><p>Wherever you live, your dog's behaviour can be brought to me through video.</p></div>
+</div></div></section>
 
-      </div>
-      <div>
-        <img class="hero-photo" src="https://images.pexels.com/photos/5482552/pexels-photo-5482552.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Dog owner training a Dalmatian outdoors">
-        <p class="photo-caption">Training is about communication, not just commands.</p>
-      </div>
-    </div>
-    <div class="stat-strip">
-      <div class="stat-card"><div class="stat">43,517</div><p>dogs included in a large study of fear and anxiety. 91% showed at least moderate fear or anxiety in at least one situation.</p></div>
-      <div class="stat-card"><div class="stat">72.5%</div><p>of 13,715 dogs in a large study showed at least one highly problematic behaviour, including fear, noise sensitivity or aggression.</p></div>
-      <div class="stat-card"><div class="stat">7 in 10+</div><p>owners reported healthier skin and shinier coats after improving their dog's nutrition.</p></div>
-    </div>
+<section class="problem" id="problems"><div class="wrap">
+<div class="section-head"><div class="tag">What can I help with?</div><h2>Whatever behaviour you're struggling to understand.</h2><p>You don't need to diagnose the problem before you contact me. Show me what your dog is doing and I'll assess the behaviour from the footage.</p></div>
+<div class="problem-grid">
+<div class="problem-card"><span>Behaviour</span><h3>Resource guarding & food aggression</h3><p>Growling, snapping, guarding food, toys, beds, people or other resources.</p></div>
+<div class="problem-card"><span>Reactivity</span><h3>Barking, lunging & overreaction</h3><p>Dogs, people, traffic, visitors or anything else that causes your dog to react.</p></div>
+<div class="problem-card"><span>Home</span><h3>Problems around the house</h3><p>Jumping up, barking, destructive behaviour, unwanted interactions and household conflict.</p></div>
+<div class="problem-card"><span>Everyday</span><h3>Lead walking, recall & general training</h3><p>Problems that keep making everyday life harder than it needs to be.</p></div>
+<div class="problem-card"><span>Fear</span><h3>Fear, anxiety & confidence</h3><p>I'll help you understand the behaviour you can actually see, rather than guessing from a label.</p></div>
+<div class="problem-card"><span>And more</span><h3>Something not on the list?</h3><p>That's fine. If you can film it, I can start by looking at it.</p></div>
+</div></div></section>
 
-    <div class="picker">
-      <div class="svc-card">
-        <div class="icon-badge orange">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 20 L22 7 L38 20" stroke="var(--rust)" stroke-width="2.6" stroke-linejoin="round"/>
-          <path d="M11 18 V36 H33 V18" stroke="var(--rust)" stroke-width="2.6" stroke-linejoin="round"/>
-          <circle cx="22" cy="27" r="3.4" stroke="var(--ink)" stroke-width="2"/>
-        </svg>
-        </div>
-        <span class="svc-tag">North West of England</span>
-        <h3>In-Person Training</h3>
-        <p>I come to your house for a 2-hour session. You pay afterwards, once you've seen results.</p>
-        <a class="btn btn-ghost" href="#in-person">See in-person training</a>
-      </div>
-      <div class="svc-card">
-        <div class="icon-badge green">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="9" width="34" height="26" rx="6" stroke="var(--moss)" stroke-width="2.6"/>
-          <path d="M19 17 L28 22 L19 27 Z" fill="var(--moss)"/>
-        </svg>
-        </div>
-        <span class="svc-tag" style="background:var(--moss)">Worldwide</span>
-        <h3>Remote Training</h3>
-        <p>Send me a video on WhatsApp and I'll send back a plan. You pay once you've had it, not before.</p>
-        <a class="btn btn-ghost" href="#remote">See remote training</a>
-      </div>
-    </div>
-  </div>
+<section class="dark" id="how"><div class="wrap">
+<div class="section-head"><div class="tag" style="color:var(--yellow)">How it works</div><h2>Simple for you. Thorough from me.</h2><p>There is no complicated upload process and no long questionnaire before you can get started.</p></div>
+<div class="steps">
+<div class="step"><div class="step-num">01</div><h3>Book</h3><p>Choose the remote behaviour assessment and complete your payment.</p></div>
+<div class="step"><div class="step-num">02</div><h3>Send the footage</h3><p>After payment, I'll send you clear instructions for sending your video and the essential information I need.</p></div>
+<div class="step"><div class="step-num">03</div><h3>I analyse it</h3><p>I'll work through the footage, looking at body language, triggers, escalation, environment and what happens around the behaviour.</p></div>
+<div class="step"><div class="step-num">04</div><h3>Get your plan</h3><p>You'll receive a clear assessment and practical recommendations designed around what I've actually seen.</p></div>
+</div></div></section>
+
+<section class="report" id="sample"><div class="wrap"><div class="report-grid">
+<div class="report-copy"><div class="tag">See what you're paying for</div><h2>This isn't a generic list of dog-training tips.</h2><p>Your assessment turns your footage into something useful: what your dog is communicating, what may be triggering the behaviour, how it escalates and what you can do next.</p><p>We've created a full sample assessment for a fictional case of serious resource guarding and food aggression so you can see the level of detail before you book.</p><a class="btn" style="margin-top:25px" href="#book">Book Your Assessment</a></div>
+<div class="report-card">
+<div class="report-top"><div><div class="report-label">Example assessment</div><strong>Resource Guarding & Food Aggression</strong></div><div class="report-label">Video analysis</div></div>
+<div class="report-list">
+<div class="report-item"><strong>Behaviour & body language</strong><span>What the dog's posture, facial signals and movement are communicating.</span></div>
+<div class="report-item"><strong>Triggers</strong><span>What happens immediately before the behaviour and what may be driving it.</span></div>
+<div class="report-item"><strong>Escalation</strong><span>How the behaviour develops and where intervention can happen.</span></div>
+<div class="report-item"><strong>Practical training plan</strong><span>Clear steps to manage the situation and start changing the behaviour.</span></div>
+</div>
+<p class="report-cta"><strong>The finished report:</strong> a professional, easy-to-follow assessment you can refer back to while you work with your dog.</p>
+</div></div></div></section>
+
+<section class="order" id="book"><div class="wrap"><div class="order-box">
+<div><div class="tag" style="color:#FFE0D4">Remote behaviour assessment</div><h2>Understand the behaviour. Know what to do next.</h2><p>Book your assessment for <strong>£35</strong>. Once payment is complete, I'll send you everything you need to provide your dog's footage.</p></div>
+<div><div class="price">£35 <small>per assessment</small></div>
+<ul class="order-list"><li>Personalised video analysis</li><li>Behaviour & body-language breakdown</li><li>Trigger and escalation analysis</li><li>Practical training recommendations</li><li>Clear written action plan</li></ul>
+<!-- Replace the href below with the live payment/checkout URL when the payment link is ready. -->
+<a class="btn btn-lg" href="mailto:07868188400@placeholder.invalid?subject=Book%20Your%20Remote%20Dog%20Behaviour%20Assessment&body=I'd%20like%20to%20book%20the%20£35%20remote%20dog%20behaviour%20assessment.">Book Your Assessment</a>
+<p class="order-note">After payment, you'll receive instructions for sending your video. There is no video upload on this website.</p></div>
+</div></div></section>
+
+<section id="about"><div class="wrap about"><div><div class="tag">About Andrew</div><h2>Bring the behaviour to me.</h2></div><div><p>I work from the behaviour I can actually see. Video lets me look closely at the moments that matter and turn them into practical guidance you can use in your dog's everyday life.</p><p>Remote assessment means you don't need to travel, arrange a home visit or try to explain everything from memory. Film what happens and let me see it for myself.</p><div class="about-links"><a href="https://www.amazon.co.uk/dp/B0DK486N1K" target="_blank" rel="noopener">My book on Amazon</a><a href="tel:07868188400">07868 188400</a><a href="privacy.html">Privacy Policy</a></div></div></div></section>
+
+<section><div class="wrap faq"><div class="tag">Questions</div><h2>Before you book</h2>
+<details><summary>Do I upload the video when I book?</summary><p>No. The website is for booking and payment. Once your assessment is booked, I'll send you clear instructions for sending the footage.</p></details>
+<details><summary>Do I need a professional camera?</summary><p>No. Your phone is absolutely fine. The important thing is being able to see the behaviour clearly.</p></details>
+<details><summary>What happens after I pay?</summary><p>You'll receive the next-step instructions for sending your video and the essential information I need. I don't want you filling out a huge questionnaire before you've even started.</p></details>
+<details><summary>Can you help with something that isn't listed?</summary><p>Yes. The examples above are common problems, not a closed list. If you can show me the behaviour, I can assess what I'm seeing.</p></details>
+<details><summary>Is this available outside the UK?</summary><p>Yes. The remote assessment is designed to work from anywhere in the world.</p></details>
+<details><summary>What if I need more support afterwards?</summary><p>If the behaviour calls for further support, I'll tell you what I think would be useful rather than pretending one assessment solves everything.</p></details>
 </section>
 
-<section class="science" id="science">
-  <div class="wrap science-grid">
-    <div>
-      <span class="svc-tag">The science behind the approach</span>
-      <h2>There's more going on than teaching a dog to sit.</h2>
-      <p class="science-intro">I don't need to give away every detail of how I train to explain why it works. Good training is built around how dogs learn, what motivates them, how emotion affects behaviour, and how the human changes the environment around the dog.</p>
-    </div>
-    <div>
-      <div class="science-cards">
-        <article class="science-card"><div class="science-num">01 · Learning</div><h3>Behaviour follows consequences</h3><p>Dogs learn from what happens immediately around a behaviour. Training becomes more reliable when the right behaviour is made worthwhile and repeatable.</p></article>
-        <article class="science-card"><div class="science-num">02 · Emotion</div><h3>State matters before skill</h3><p>A dog that is frightened, frustrated or highly aroused may not be in the best state for learning. Understanding that state changes what you do next.</p></article>
-        <article class="science-card"><div class="science-num">03 · Context</div><h3>Dogs don't live in a training room</h3><p>A behaviour that works in a quiet kitchen can fall apart outside. Real progress means building useful behaviour into the places and situations that actually matter.</p></article>
-        <article class="science-card"><div class="science-num">04 · The human</div><h3>Training changes both sides</h3><p>The owner is part of the learning system. Clear timing, predictable routines and consistency can change what the dog experiences every day.</p></article>
-      </div>
-      <p class="science-note">Research is encouraging, but it isn't magic: studies of dog ownership and behaviour have limitations, and an association does not automatically prove causation. The aim is to use the evidence intelligently alongside what we can actually observe in the individual dog.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<section class="svc-section" id="in-person">
-  <div class="wrap svc-grid">
-    <div>
-      <span class="svc-tag">North West of England</span>
-      <h2>In-person training, right at your door</h2>
-      <p class="lead">I'm based in Warrington and cover the North West of England. It's one session, but it works.</p>
-      <div class="pay-note">
-        <div>
-          <strong>You pay afterwards</strong>
-          <p>Once you've seen a real improvement, you pay by cash or bank transfer. If there's no significant improvement within 7 days, you can ask for your money back.</p>
-        </div>
-      </div>
-      <div class="price-line">
-        <a class="btn btn-lg" href="https://squareup.com/appointments/book/LBCF4ZN6AQF53/start" target="_blank" rel="noopener">Book my 2-hour session</a>
-      </div>
-      <div class="hours-table">
-        <p class="hours-label">Hours</p>
-        <div class="hours-row"><span>Mon – Sun</span><span>By appointment</span></div>
-      </div>
-    </div>
-    <div class="steps">
-      <div class="step"><div class="num">01</div><div class="step-body"><h3>Book your session</h3><p>Check my availability and book your preferred date and time. My 2-hour session is all you'll need, my methods get your dog real improvement within the week.</p></div></div>
-      <div class="step"><div class="num">02</div><div class="step-body"><h3>The meet and greet</h3><p>I come to your home and start working on the behaviour from the moment I walk through the door. We'll talk through your concerns and expectations, then go through nutrition, feeding, walking and play, so the whole routine's working with you, not against you.</p></div></div>
-      <div class="step"><div class="num">03</div><div class="step-body"><h3>Pay once you see results</h3><p>If you see a significant improvement, you pay at the end, by cash or bank transfer.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="svc-section dark" id="remote">
-  <div class="wrap svc-grid">
-    <div>
-      <span class="svc-tag" style="background:var(--yellow);color:#1C2A21">Worldwide</span>
-      <h2>Not in the North West of England? Send me the video instead.</h2>
-      <p class="lead">I'll watch the footage myself and send you back a proper training plan, wherever in the world you are.</p>
-      <div class="pay-note">
-        <div>
-          <strong>No payment upfront</strong>
-          <p>Send your video and I'll watch it and send back the full write-up and training plan first. Once you've had it, I'll send you a payment link.</p>
-        </div>
-      </div>
-      <div class="price-line">
-        <div class="amount" id="remotePrice"><span>£</span>35</div>
-        
-        <a class="btn btn-lg" href="https://wa.me/447868188400?text=Hi%20Andrew%2C%20I%27d%20like%20to%20send%20a%20video%20of%20my%20dog%27s%20behaviour%20for%20analysis" target="_blank" rel="noopener">Send your video on WhatsApp</a>
-      </div>
-    </div>
-    <div class="steps">
-      <div class="step"><div class="num">01</div><div class="step-body"><h3>Film</h3><p>Get it on your phone, and tell me a bit about what usually happens before and after.</p></div></div>
-      <div class="step"><div class="num">02</div><div class="step-body"><h3>Send it over WhatsApp</h3><p>Attach the video and send it across. That's really all there is to it.</p></div></div>
-      <div class="step"><div class="num">03</div><div class="step-body"><h3>Get your plan, then pay</h3><p>I'll watch it and send back what's going on and what to do about it, along with a payment link once it's with you.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<section id="about">
-  <div class="wrap about-grid">
-    <div>
-      <h2>About Andrew</h2>
-    </div>
-    <div>
-      <p>I understand dogs, and I'm lucky that dogs seem to understand me too. Over the years I've put together a training programme that anyone can copy and use in their dog's daily routine. Barking, pulling on the lead, jumping up, house training, separation anxiety, resource guarding, reactivity, confidence, desensitisation, whatever it is, chances are I've dealt with it before.</p>
-      <div class="about-links">
-        <a href="https://www.amazon.co.uk/dp/B0DK486N1K" target="_blank" rel="noopener">My book on Amazon</a>
-        <a href="tel:07868188400">07868 188400</a>
-    <a href="privacy.html">Privacy Policy</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="reviews">
-  <div class="wrap reviews-block">
-    <h2>What previous clients say</h2>
-    <div class="review-grid">
-      <blockquote class="review-card">
-        <p>"Andrew has been to see our 4 year old cavapoo, Arlo, only this morning and he seems to be showing some restraint already. Overall Arlo is a great dog but really struggles with resource guarding and has started to become aggressive when guarding over the past few months. He basically rules the roost and tells us what to do, not the other way around. Andrew is clearly an expert at what he does, his knowledge is next to none and I'm confident that if we stick with what he has shown us, Arlo's bad habits will change in no time. Andrew also made us aware of the importance of nutrition and the impact that choosing the wrong food can have on Arlo overall. Thank you Andrew!"</p>
-        <cite>— Leanne McGregor, from Facebook</cite>
-      </blockquote>
-      <blockquote class="review-card">
-        <p>"Had 1 puppy training session with Andrew yesterday, very informative, I have a puppy that will be the size of a horse that was lunging and barking at anything that caught her eye! Using Andrew's techniques we have had a successful walk tonight, we did encounter things that set her off but I was able to control her and the situation with a few simple commands! Would highly recommend and looking forward to further sessions with Andrew!"</p>
-        <cite>— Keeley Taylor, from Facebook</cite>
-      </blockquote>
-      <blockquote class="review-card">
-        <p>"Andrew came to see our rescue Tali, who unfortunately hadn't had the best start in life and had her issues and problems. After 10 minutes outside with Andrew she was like a different dog! We'd tried everything to stop her pulling on the lead so we couldn't believe it when she was walking in a heel so quickly! There's also been a huge difference in her reactivity and when it does happen we know how to deal with it. I can't thank Andrew enough, Tali is now a pleasure to walk and has had lots of positive interactions with dogs, whereas we previously used to be scared to take her too close."</p>
-        <cite>— Emma Donoghue, from Facebook</cite>
-      </blockquote>
-    </div>
-    <a class="btn btn-ghost" style="margin-top:24px" href="https://www.facebook.com/andrewheaney.dog/reviews/?id=100070747700127&sk=reviews" target="_blank" rel="noopener">See all reviews on Facebook</a>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap" style="max-width:720px">
-    <h2 style="font-size:clamp(26px,3.2vw,36px)">Questions</h2>
-    <div class="faq-list" style="margin-top:20px">
-      <details>
-        <summary>When do I actually pay?</summary>
-        <p>Never upfront. In person, you pay at the end once you've seen a real improvement. For remote analysis, I'll send you a payment link after I've sent your write-up and training plan, not before.</p>
-      </details>
-      <details>
-        <summary>Do you come to us for in-person sessions?</summary>
-        <p>Yes, the session's normally at your home. I'm based in Warrington and cover the North West of England.</p>
-      </details>
-      <details>
-        <summary>How can you guarantee a result when other trainers have failed me?</summary>
-        <p>I hear horror stories often, dogs sedated with drugs, trainers giving up on them. My programme is built to be copied and repeated in your dog's daily routine. Follow it and you'll see a real improvement. If you don't within 7 days of an in-person session, you can ask for your money back.</p>
-      </details>
-      <details>
-        <summary>Is remote training available anywhere?</summary>
-        <p>Yes. It's fully remote, so you can send footage from anywhere in the world. In-person sessions are only available in the North West of England.</p>
-      </details>
-      <details>
-        <summary>My dog does 'this', can you help?</summary>
-        <p>Almost certainly. Barking, pulling on the lead, jumping up on visitors, house training, separation anxiety, resource guarding, reactivity, confidence, desensitisation. Whatever it is, I can help, in person or remotely.</p>
-      </details>
-      <details>
-        <summary>What if my dog needs more than one review?</summary>
-        <p>If the behaviour needs an ongoing plan or extra support, I'll tell you straight, rather than stretching one review to cover something bigger.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<section class="closing">
-  <h2>Let's sort your dog's behaviour, whichever way works for you.</h2>
-  <div class="closing-actions">
-    <a class="btn btn-lg" href="https://squareup.com/appointments/book/LBCF4ZN6AQF53/start" target="_blank" rel="noopener">Book in-person session</a>
-    <a class="btn btn-lg btn-ghost" href="https://wa.me/447868188400?text=Hi%20Andrew%2C%20I%27d%20like%20to%20send%20a%20video%20of%20my%20dog%27s%20behaviour%20for%20analysis" target="_blank" rel="noopener">Send video on WhatsApp</a>
-  </div>
-</section>
+<section class="closing"><h2>Because every dog deserves to be understood.</h2><p>Stop guessing at what your dog is trying to tell you. Show me the behaviour and let's work out what to do next.</p><a class="btn btn-lg" href="#book">Book Your Assessment — £35</a></section>
 </main>
 
-<footer>
-  <a class="brand" href="#">Andrew — The Dog Trainer</a>
-  <div class="foot-links">
-    <a href="#in-person">In-Person</a>
-    <a href="#remote">Remote</a>
-    <a href="tel:07868188400">07868 188400</a>
-    <a href="privacy.html">Privacy Policy</a>
-  </div>
-  <p>© 2026 Andrew — The Dog Trainer</p>
-</footer>
-
-
+<footer><a class="brand" href="#">Andrew — The Dog Trainer</a><p>© 2026 Andrew — The Dog Trainer</p><div><a href="privacy.html">Privacy Policy</a></div></footer>
 <script>
-  // Show the £35 remote-training price in the visitor's local currency.
-  (function () {
-    var priceEl = document.getElementById('remotePrice');
-    if (!priceEl) return;
-
-    var GBP_PRICE = 35;
-
-    function showPrice(currency, rate) {
-      if (!currency || currency === 'GBP') {
-        priceEl.textContent = '£35';
-        return;
-      }
-      if (!rate || !isFinite(rate)) return;
-      try {
-        priceEl.textContent = new Intl.NumberFormat(undefined, {
-          style: 'currency',
-          currency: currency,
-          maximumFractionDigits: 0
-        }).format(GBP_PRICE * rate);
-      } catch (e) {}
-    }
-
-    function getRate(currency) {
-      return fetch('https://open.er-api.com/v6/latest/GBP', { cache: 'no-store' })
-        .then(function (response) {
-          if (!response.ok) throw new Error('Exchange-rate request failed');
-          return response.json();
-        })
-        .then(function (data) {
-          var rate = data && data.rates && data.rates[currency];
-          if (!rate) throw new Error('Currency rate unavailable');
-          showPrice(currency, rate);
-        });
-    }
-
-    function applyLocation(data) {
-      if (!data) return;
-      var currency = data.currency;
-      if (!currency && data.country_code === 'GB') currency = 'GBP';
-      if (!currency) throw new Error('Currency unavailable');
-      if (currency === 'GBP') {
-        showPrice('GBP', 1);
-      } else {
-        return getRate(currency);
-      }
-    }
-
-    // Use ipapi's browser JSONP endpoint so the lookup works reliably from the website.
-    // It returns the visitor's public-IP country and currency directly.
-    window.__andrewCurrencyLocation = function (data) {
-      try {
-        applyLocation(data);
-      } catch (e) {
-        // Keep the displayed £35 if the location service cannot provide a currency.
-      }
-    };
-
-    var lookup = document.createElement('script');
-    lookup.src = 'https://ipapi.co/jsonp/?callback=__andrewCurrencyLocation';
-    lookup.async = true;
-    document.head.appendChild(lookup);
-  }());
-
-  var toggle = document.getElementById('menuToggle');
-  var links = document.getElementById('navLinks');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('open');
-    });
-    links.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        links.classList.remove('open');
-      });
-    });
-  }
+const toggle=document.getElementById('menuToggle'),links=document.getElementById('navLinks');
+if(toggle&&links){toggle.addEventListener('click',()=>links.classList.toggle('open'));links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')))}
 </script>
 </body>
 </html>
-
