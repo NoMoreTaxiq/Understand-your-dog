@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'reviews.js'
+      - '.github/workflows/install-reviews.yml'
   workflow_dispatch:
 permissions:
   contents: write
