@@ -31,6 +31,7 @@ const config={
 };
 const cfg=config[service],$=id=>document.getElementById(id);$('servicePill').textContent=cfg.pill;$('serviceName').textContent=cfg.name;$('price').textContent=cfg.price+(service==='walking'?' / hour':service==='online'?' · Online':'');$('features').innerHTML=cfg.features.map(x=>'<li>'+x+'</li>').join('');
 if(service==='online'){['address1','address2','town','postcode'].forEach(id=>$(id).classList.add('hidden'));['address_line1','address_line2','town_city','postcode'].forEach(n=>document.querySelector('[name="'+n+'"]').required=false)}
+else {['address_line1','town_city','postcode'].forEach(n=>document.querySelector('[name="'+n+'"]').required=true)}
 if(service==='walking')$('dogCountWrap').classList.remove('hidden');
 let selected=null,selectedDate='',cache={};const days=$('days'),slots=$('slots'),msg=$('slotMsg'),cont=$('continue');const minDate=new Date();minDate.setHours(0,0,0,0);minDate.setDate(minDate.getDate()+1);let view=new Date(minDate.getFullYear(),minDate.getMonth(),1);
 function dateKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
