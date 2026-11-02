@@ -26,10 +26,10 @@ const API='https://hkbpkodggevyoxtllujf.supabase.co/functions/v1/dog-training-ca
 const params=new URLSearchParams(location.search);const allowed=['intensive','online','walking'];const service=allowed.includes(params.get('service'))?params.get('service'):'intensive';
 const config={
  intensive:{pill:'1-TO-1 INTENSIVE · £99',name:'1-to-1 Intensive',price:'£99',features:['Up to 2 hours','At your home / local environment','Personalised to your dog','Practical plan afterwards','No online payment required']},
- online:{pill:'ONLINE CONSULTATION',name:'Online Consultation',price:'£—',features:['1-hour live video consultation','Discuss behaviour and triggers','Practical next steps','No travel required','No online payment required']},
+ online:{pill:'ONLINE CONSULTATION',name:'Online Consultation',price:'1 hour',features:['1-hour live video consultation','Discuss behaviour and triggers','Practical next steps','No travel required','No online payment required']},
  walking:{pill:'PRIVATE DOG WALKING · WARRINGTON',name:'Structured Dog Walking',price:'£17',features:['60 minutes','One household at a time','Up to 3 dogs','Loose-lead skills, sniffing and play','30-minute travel gap built in']}
 };
-const cfg=config[service],$=id=>document.getElementById(id);$('servicePill').textContent=cfg.pill;$('serviceName').textContent=cfg.name;$('price').textContent=cfg.price+(service==='walking'?' / hour':'');$('features').innerHTML=cfg.features.map(x=>'<li>'+x+'</li>').join('');
+const cfg=config[service],$=id=>document.getElementById(id);$('servicePill').textContent=cfg.pill;$('serviceName').textContent=cfg.name;$('price').textContent=cfg.price+(service==='walking'?' / hour':service==='online'?' · Online':'');$('features').innerHTML=cfg.features.map(x=>'<li>'+x+'</li>').join('');
 if(service==='online'){['address1','address2','town','postcode'].forEach(id=>$(id).classList.add('hidden'));['address_line1','address_line2','town_city','postcode'].forEach(n=>document.querySelector('[name="'+n+'"]').required=false)}
 if(service==='walking')$('dogCountWrap').classList.remove('hidden');
 let selected=null,selectedDate='',cache={};const days=$('days'),slots=$('slots'),msg=$('slotMsg'),cont=$('continue');const minDate=new Date();minDate.setHours(0,0,0,0);minDate.setDate(minDate.getDate()+1);let view=new Date(minDate.getFullYear(),minDate.getMonth(),1);
