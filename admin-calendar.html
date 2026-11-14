@@ -25,7 +25,7 @@ let adminKey='';
 const $=id=>document.getElementById(id);
 const labels=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const serviceLabels={intensive:'1-to-1 Intensive · £99',online:'Online Consultation',walking:'Dog Walking'};
-function bookingService(b){const src=String(b.source||'').toLowerCase();if(src.includes('walking'))return 'Dog Walking';if(src.includes('online'))return 'Online Consultation';if(src.includes('assessment'))return 'Video Assessment';if(src==='website_v2'||src.includes('intensive'))return '1-to-1 Intensive';return 'Service not recorded';}
+function bookingService(b){const src=String(b.source||'').toLowerCase();if(src.includes('book_owner_complimentary'))return 'Free Book Owner Session';if(src.includes('walking'))return 'Dog Walking';if(src.includes('online'))return 'Online Consultation';if(src.includes('assessment'))return 'Video Assessment';if(src==='website_v2'||src.includes('intensive'))return '1-to-1 Intensive';return 'Service not recorded';}
 function show(id,on){$(id).classList.toggle('hidden',!on)}
 function status(msg,bad=false){$('status').textContent=msg;$('status').classList.toggle('danger',bad)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
